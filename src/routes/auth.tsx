@@ -10,7 +10,7 @@ import { loadSession, homeFor } from "@/lib/auth";
 import { errMsg } from "@/lib/format";
 
 export const Route = createFileRoute("/auth")({
-  validateSearch: (s: Record<string, unknown>) => ({ mode: s.mode === "register" ? ("register" as const) : undefined }),
+  validateSearch: (s: Record<string, unknown>): { mode?: "register" } => (s.mode === "register" ? { mode: "register" } : {}),
   head: () => ({
     meta: [
       { title: "Sign in — e-Challan" },
