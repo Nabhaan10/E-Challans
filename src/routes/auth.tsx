@@ -46,7 +46,7 @@ function AuthPage() {
     });
     if (error) {
       setBusy(false);
-      return toast.error(error.message);
+      { toast.error(error.message); return; }
     }
     const s = await loadSession();
     await supabase.rpc("log_event", { _action: "LOGIN", _entity: "user", _entity_id: s?.user.id ?? null });
@@ -58,7 +58,7 @@ function AuthPage() {
     e.preventDefault();
     const f = Object.fromEntries(new FormData(e.currentTarget)) as Record<string, string>;
     const parsed = regSchema.safeParse(f);
-    if (!parsed.success) return toast.error(parsed.error.issues[0].message);
+    if (!parsed.success) { toast.error(parsed.error.issues[0].message); return; }
     setBusy(true);
     try {
       const { error } = await supabase.auth.signUp({
