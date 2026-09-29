@@ -49,7 +49,7 @@ function AuthPage() {
       { toast.error(error.message); return; }
     }
     const s = await loadSession();
-    await supabase.rpc("log_event", { _action: "LOGIN", _entity: "user", _entity_id: s?.user.id });
+    await supabase.rpc("log_event", { _action: "LOGIN", _entity: "user", ...(s ? { _entity_id: s.user.id } : {}) });
     setBusy(false);
     navigate({ to: homeFor(s?.role ?? "citizen") });
   }
