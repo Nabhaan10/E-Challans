@@ -49,7 +49,7 @@ function AuthPage() {
       { toast.error(error.message); return; }
     }
     const s = await loadSession();
-    await supabase.rpc("log_event", { _action: "LOGIN", _entity: "user", _entity_id: s?.user.id ?? null });
+    await supabase.rpc("log_event", { _action: "LOGIN", _entity: "user", _entity_id: s?.user.id });
     setBusy(false);
     navigate({ to: homeFor(s?.role ?? "citizen") });
   }
@@ -58,7 +58,7 @@ function AuthPage() {
     e.preventDefault();
     const f = Object.fromEntries(new FormData(e.currentTarget)) as Record<string, string>;
     const parsed = regSchema.safeParse(f);
-    if (!parsed.success) { toast.error(parsed.error.issues[0].message); return; }
+    if (!parsed.success) { toast.error(parsed.error.issues[0]?.message ?? "Invalid input"); return; }
     setBusy(true);
     try {
       const { error } = await supabase.auth.signUp({
