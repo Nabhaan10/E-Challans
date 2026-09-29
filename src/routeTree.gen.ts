@@ -10,33 +10,320 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
+import { Route as AuthenticatedAppealsRouteImport } from './routes/_authenticated/appeals'
+import { Route as AuthenticatedCitizenRouteImport } from './routes/_authenticated/citizen'
+import { Route as AuthenticatedNotificationsRouteImport } from './routes/_authenticated/notifications'
+import { Route as AuthenticatedSearchRouteImport } from './routes/_authenticated/search'
+import { Route as VerifyChallanNoRouteImport } from './routes/verify.$challanNo'
+import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin.index'
+import { Route as AuthenticatedAdminAssistantRouteImport } from './routes/_authenticated/admin.assistant'
+import { Route as AuthenticatedAdminAuditRouteImport } from './routes/_authenticated/admin.audit'
+import { Route as AuthenticatedAdminMapRouteImport } from './routes/_authenticated/admin.map'
+import { Route as AuthenticatedAdminPaymentsRouteImport } from './routes/_authenticated/admin.payments'
+import { Route as AuthenticatedAdminRulesRouteImport } from './routes/_authenticated/admin.rules'
+import { Route as AuthenticatedAdminUsersRouteImport } from './routes/_authenticated/admin.users'
+import { Route as AuthenticatedChallansIndexRouteImport } from './routes/_authenticated/challans.index'
+import { Route as AuthenticatedChallansIdRouteImport } from './routes/_authenticated/challans.$id'
+import { Route as AuthenticatedOfficerIndexRouteImport } from './routes/_authenticated/officer.index'
+import { Route as AuthenticatedOfficerIssueRouteImport } from './routes/_authenticated/officer.issue'
+import { Route as AuthenticatedRulesIndexRouteImport } from './routes/_authenticated/rules.index'
+import { Route as AuthenticatedVehiclesIndexRouteImport } from './routes/_authenticated/vehicles.index'
+import { Route as AuthenticatedVehiclesIdRouteImport } from './routes/_authenticated/vehicles.$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ForgotPasswordRoute = ForgotPasswordRouteImport.update({
+  id: '/forgot-password',
+  path: '/forgot-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedAppealsRoute = AuthenticatedAppealsRouteImport.update({
+  id: '/appeals',
+  path: '/appeals',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedCitizenRoute = AuthenticatedCitizenRouteImport.update({
+  id: '/citizen',
+  path: '/citizen',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedNotificationsRoute =
+  AuthenticatedNotificationsRouteImport.update({
+    id: '/notifications',
+    path: '/notifications',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedSearchRoute = AuthenticatedSearchRouteImport.update({
+  id: '/search',
+  path: '/search',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const VerifyChallanNoRoute = VerifyChallanNoRouteImport.update({
+  id: '/verify/$challanNo',
+  path: '/verify/$challanNo',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
+  id: '/admin/',
+  path: '/admin/',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedAdminAssistantRoute =
+  AuthenticatedAdminAssistantRouteImport.update({
+    id: '/admin/assistant',
+    path: '/admin/assistant',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAdminAuditRoute = AuthenticatedAdminAuditRouteImport.update({
+  id: '/admin/audit',
+  path: '/admin/audit',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedAdminMapRoute = AuthenticatedAdminMapRouteImport.update({
+  id: '/admin/map',
+  path: '/admin/map',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedAdminPaymentsRoute =
+  AuthenticatedAdminPaymentsRouteImport.update({
+    id: '/admin/payments',
+    path: '/admin/payments',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAdminRulesRoute = AuthenticatedAdminRulesRouteImport.update({
+  id: '/admin/rules',
+  path: '/admin/rules',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedAdminUsersRoute = AuthenticatedAdminUsersRouteImport.update({
+  id: '/admin/users',
+  path: '/admin/users',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedChallansIndexRoute =
+  AuthenticatedChallansIndexRouteImport.update({
+    id: '/challans/',
+    path: '/challans/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedChallansIdRoute = AuthenticatedChallansIdRouteImport.update({
+  id: '/challans/$id',
+  path: '/challans/$id',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedOfficerIndexRoute =
+  AuthenticatedOfficerIndexRouteImport.update({
+    id: '/officer/',
+    path: '/officer/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedOfficerIssueRoute =
+  AuthenticatedOfficerIssueRouteImport.update({
+    id: '/officer/issue',
+    path: '/officer/issue',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedRulesIndexRoute = AuthenticatedRulesIndexRouteImport.update({
+  id: '/rules/',
+  path: '/rules/',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedVehiclesIndexRoute =
+  AuthenticatedVehiclesIndexRouteImport.update({
+    id: '/vehicles/',
+    path: '/vehicles/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedVehiclesIdRoute = AuthenticatedVehiclesIdRouteImport.update({
+  id: '/vehicles/$id',
+  path: '/vehicles/$id',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
+  '/forgot-password': typeof ForgotPasswordRoute
+  '/reset-password': typeof ResetPasswordRoute
+  '/appeals': typeof AuthenticatedAppealsRoute
+  '/citizen': typeof AuthenticatedCitizenRoute
+  '/notifications': typeof AuthenticatedNotificationsRoute
+  '/search': typeof AuthenticatedSearchRoute
+  '/verify/$challanNo': typeof VerifyChallanNoRoute
+  '/admin/assistant': typeof AuthenticatedAdminAssistantRoute
+  '/admin/audit': typeof AuthenticatedAdminAuditRoute
+  '/admin/map': typeof AuthenticatedAdminMapRoute
+  '/admin/payments': typeof AuthenticatedAdminPaymentsRoute
+  '/admin/rules': typeof AuthenticatedAdminRulesRoute
+  '/admin/users': typeof AuthenticatedAdminUsersRoute
+  '/challans/$id': typeof AuthenticatedChallansIdRoute
+  '/officer/issue': typeof AuthenticatedOfficerIssueRoute
+  '/vehicles/$id': typeof AuthenticatedVehiclesIdRoute
+  '/admin/': typeof AuthenticatedAdminIndexRoute
+  '/challans/': typeof AuthenticatedChallansIndexRoute
+  '/officer/': typeof AuthenticatedOfficerIndexRoute
+  '/rules/': typeof AuthenticatedRulesIndexRoute
+  '/vehicles/': typeof AuthenticatedVehiclesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
+  '/forgot-password': typeof ForgotPasswordRoute
+  '/reset-password': typeof ResetPasswordRoute
+  '/appeals': typeof AuthenticatedAppealsRoute
+  '/citizen': typeof AuthenticatedCitizenRoute
+  '/notifications': typeof AuthenticatedNotificationsRoute
+  '/search': typeof AuthenticatedSearchRoute
+  '/verify/$challanNo': typeof VerifyChallanNoRoute
+  '/admin/assistant': typeof AuthenticatedAdminAssistantRoute
+  '/admin/audit': typeof AuthenticatedAdminAuditRoute
+  '/admin/map': typeof AuthenticatedAdminMapRoute
+  '/admin/payments': typeof AuthenticatedAdminPaymentsRoute
+  '/admin/rules': typeof AuthenticatedAdminRulesRoute
+  '/admin/users': typeof AuthenticatedAdminUsersRoute
+  '/challans/$id': typeof AuthenticatedChallansIdRoute
+  '/officer/issue': typeof AuthenticatedOfficerIssueRoute
+  '/vehicles/$id': typeof AuthenticatedVehiclesIdRoute
+  '/admin': typeof AuthenticatedAdminIndexRoute
+  '/challans': typeof AuthenticatedChallansIndexRoute
+  '/officer': typeof AuthenticatedOfficerIndexRoute
+  '/rules': typeof AuthenticatedRulesIndexRoute
+  '/vehicles': typeof AuthenticatedVehiclesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/auth': typeof AuthRoute
+  '/forgot-password': typeof ForgotPasswordRoute
+  '/reset-password': typeof ResetPasswordRoute
+  '/_authenticated/appeals': typeof AuthenticatedAppealsRoute
+  '/_authenticated/citizen': typeof AuthenticatedCitizenRoute
+  '/_authenticated/notifications': typeof AuthenticatedNotificationsRoute
+  '/_authenticated/search': typeof AuthenticatedSearchRoute
+  '/verify/$challanNo': typeof VerifyChallanNoRoute
+  '/_authenticated/admin/assistant': typeof AuthenticatedAdminAssistantRoute
+  '/_authenticated/admin/audit': typeof AuthenticatedAdminAuditRoute
+  '/_authenticated/admin/map': typeof AuthenticatedAdminMapRoute
+  '/_authenticated/admin/payments': typeof AuthenticatedAdminPaymentsRoute
+  '/_authenticated/admin/rules': typeof AuthenticatedAdminRulesRoute
+  '/_authenticated/admin/users': typeof AuthenticatedAdminUsersRoute
+  '/_authenticated/challans/$id': typeof AuthenticatedChallansIdRoute
+  '/_authenticated/officer/issue': typeof AuthenticatedOfficerIssueRoute
+  '/_authenticated/vehicles/$id': typeof AuthenticatedVehiclesIdRoute
+  '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
+  '/_authenticated/challans/': typeof AuthenticatedChallansIndexRoute
+  '/_authenticated/officer/': typeof AuthenticatedOfficerIndexRoute
+  '/_authenticated/rules/': typeof AuthenticatedRulesIndexRoute
+  '/_authenticated/vehicles/': typeof AuthenticatedVehiclesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/auth'
+    | '/forgot-password'
+    | '/reset-password'
+    | '/appeals'
+    | '/citizen'
+    | '/notifications'
+    | '/search'
+    | '/verify/$challanNo'
+    | '/admin/assistant'
+    | '/admin/audit'
+    | '/admin/map'
+    | '/admin/payments'
+    | '/admin/rules'
+    | '/admin/users'
+    | '/challans/$id'
+    | '/officer/issue'
+    | '/vehicles/$id'
+    | '/admin/'
+    | '/challans/'
+    | '/officer/'
+    | '/rules/'
+    | '/vehicles/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/auth'
+    | '/forgot-password'
+    | '/reset-password'
+    | '/appeals'
+    | '/citizen'
+    | '/notifications'
+    | '/search'
+    | '/verify/$challanNo'
+    | '/admin/assistant'
+    | '/admin/audit'
+    | '/admin/map'
+    | '/admin/payments'
+    | '/admin/rules'
+    | '/admin/users'
+    | '/challans/$id'
+    | '/officer/issue'
+    | '/vehicles/$id'
+    | '/admin'
+    | '/challans'
+    | '/officer'
+    | '/rules'
+    | '/vehicles'
+  id:
+    | '__root__'
+    | '/'
+    | '/_authenticated'
+    | '/auth'
+    | '/forgot-password'
+    | '/reset-password'
+    | '/_authenticated/appeals'
+    | '/_authenticated/citizen'
+    | '/_authenticated/notifications'
+    | '/_authenticated/search'
+    | '/verify/$challanNo'
+    | '/_authenticated/admin/assistant'
+    | '/_authenticated/admin/audit'
+    | '/_authenticated/admin/map'
+    | '/_authenticated/admin/payments'
+    | '/_authenticated/admin/rules'
+    | '/_authenticated/admin/users'
+    | '/_authenticated/challans/$id'
+    | '/_authenticated/officer/issue'
+    | '/_authenticated/vehicles/$id'
+    | '/_authenticated/admin/'
+    | '/_authenticated/challans/'
+    | '/_authenticated/officer/'
+    | '/_authenticated/rules/'
+    | '/_authenticated/vehicles/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
+  AuthRoute: typeof AuthRoute
+  ForgotPasswordRoute: typeof ForgotPasswordRoute
+  ResetPasswordRoute: typeof ResetPasswordRoute
+  VerifyChallanNoRoute: typeof VerifyChallanNoRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +335,222 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/forgot-password': {
+      id: '/forgot-password'
+      path: '/forgot-password'
+      fullPath: '/forgot-password'
+      preLoaderRoute: typeof ForgotPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/appeals': {
+      id: '/_authenticated/appeals'
+      path: '/appeals'
+      fullPath: '/appeals'
+      preLoaderRoute: typeof AuthenticatedAppealsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/citizen': {
+      id: '/_authenticated/citizen'
+      path: '/citizen'
+      fullPath: '/citizen'
+      preLoaderRoute: typeof AuthenticatedCitizenRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/notifications': {
+      id: '/_authenticated/notifications'
+      path: '/notifications'
+      fullPath: '/notifications'
+      preLoaderRoute: typeof AuthenticatedNotificationsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/search': {
+      id: '/_authenticated/search'
+      path: '/search'
+      fullPath: '/search'
+      preLoaderRoute: typeof AuthenticatedSearchRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/verify/$challanNo': {
+      id: '/verify/$challanNo'
+      path: '/verify/$challanNo'
+      fullPath: '/verify/$challanNo'
+      preLoaderRoute: typeof VerifyChallanNoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/admin/': {
+      id: '/_authenticated/admin/'
+      path: '/admin'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AuthenticatedAdminIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/assistant': {
+      id: '/_authenticated/admin/assistant'
+      path: '/admin/assistant'
+      fullPath: '/admin/assistant'
+      preLoaderRoute: typeof AuthenticatedAdminAssistantRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/audit': {
+      id: '/_authenticated/admin/audit'
+      path: '/admin/audit'
+      fullPath: '/admin/audit'
+      preLoaderRoute: typeof AuthenticatedAdminAuditRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/map': {
+      id: '/_authenticated/admin/map'
+      path: '/admin/map'
+      fullPath: '/admin/map'
+      preLoaderRoute: typeof AuthenticatedAdminMapRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/payments': {
+      id: '/_authenticated/admin/payments'
+      path: '/admin/payments'
+      fullPath: '/admin/payments'
+      preLoaderRoute: typeof AuthenticatedAdminPaymentsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/rules': {
+      id: '/_authenticated/admin/rules'
+      path: '/admin/rules'
+      fullPath: '/admin/rules'
+      preLoaderRoute: typeof AuthenticatedAdminRulesRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/users': {
+      id: '/_authenticated/admin/users'
+      path: '/admin/users'
+      fullPath: '/admin/users'
+      preLoaderRoute: typeof AuthenticatedAdminUsersRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/challans/': {
+      id: '/_authenticated/challans/'
+      path: '/challans'
+      fullPath: '/challans/'
+      preLoaderRoute: typeof AuthenticatedChallansIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/challans/$id': {
+      id: '/_authenticated/challans/$id'
+      path: '/challans/$id'
+      fullPath: '/challans/$id'
+      preLoaderRoute: typeof AuthenticatedChallansIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/officer/': {
+      id: '/_authenticated/officer/'
+      path: '/officer'
+      fullPath: '/officer/'
+      preLoaderRoute: typeof AuthenticatedOfficerIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/officer/issue': {
+      id: '/_authenticated/officer/issue'
+      path: '/officer/issue'
+      fullPath: '/officer/issue'
+      preLoaderRoute: typeof AuthenticatedOfficerIssueRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/rules/': {
+      id: '/_authenticated/rules/'
+      path: '/rules'
+      fullPath: '/rules/'
+      preLoaderRoute: typeof AuthenticatedRulesIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/vehicles/': {
+      id: '/_authenticated/vehicles/'
+      path: '/vehicles'
+      fullPath: '/vehicles/'
+      preLoaderRoute: typeof AuthenticatedVehiclesIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/vehicles/$id': {
+      id: '/_authenticated/vehicles/$id'
+      path: '/vehicles/$id'
+      fullPath: '/vehicles/$id'
+      preLoaderRoute: typeof AuthenticatedVehiclesIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedAppealsRoute: typeof AuthenticatedAppealsRoute
+  AuthenticatedCitizenRoute: typeof AuthenticatedCitizenRoute
+  AuthenticatedNotificationsRoute: typeof AuthenticatedNotificationsRoute
+  AuthenticatedSearchRoute: typeof AuthenticatedSearchRoute
+  AuthenticatedAdminAssistantRoute: typeof AuthenticatedAdminAssistantRoute
+  AuthenticatedAdminAuditRoute: typeof AuthenticatedAdminAuditRoute
+  AuthenticatedAdminMapRoute: typeof AuthenticatedAdminMapRoute
+  AuthenticatedAdminPaymentsRoute: typeof AuthenticatedAdminPaymentsRoute
+  AuthenticatedAdminRulesRoute: typeof AuthenticatedAdminRulesRoute
+  AuthenticatedAdminUsersRoute: typeof AuthenticatedAdminUsersRoute
+  AuthenticatedChallansIdRoute: typeof AuthenticatedChallansIdRoute
+  AuthenticatedOfficerIssueRoute: typeof AuthenticatedOfficerIssueRoute
+  AuthenticatedVehiclesIdRoute: typeof AuthenticatedVehiclesIdRoute
+  AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
+  AuthenticatedChallansIndexRoute: typeof AuthenticatedChallansIndexRoute
+  AuthenticatedOfficerIndexRoute: typeof AuthenticatedOfficerIndexRoute
+  AuthenticatedRulesIndexRoute: typeof AuthenticatedRulesIndexRoute
+  AuthenticatedVehiclesIndexRoute: typeof AuthenticatedVehiclesIndexRoute
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedAppealsRoute: AuthenticatedAppealsRoute,
+  AuthenticatedCitizenRoute: AuthenticatedCitizenRoute,
+  AuthenticatedNotificationsRoute: AuthenticatedNotificationsRoute,
+  AuthenticatedSearchRoute: AuthenticatedSearchRoute,
+  AuthenticatedAdminAssistantRoute: AuthenticatedAdminAssistantRoute,
+  AuthenticatedAdminAuditRoute: AuthenticatedAdminAuditRoute,
+  AuthenticatedAdminMapRoute: AuthenticatedAdminMapRoute,
+  AuthenticatedAdminPaymentsRoute: AuthenticatedAdminPaymentsRoute,
+  AuthenticatedAdminRulesRoute: AuthenticatedAdminRulesRoute,
+  AuthenticatedAdminUsersRoute: AuthenticatedAdminUsersRoute,
+  AuthenticatedChallansIdRoute: AuthenticatedChallansIdRoute,
+  AuthenticatedOfficerIssueRoute: AuthenticatedOfficerIssueRoute,
+  AuthenticatedVehiclesIdRoute: AuthenticatedVehiclesIdRoute,
+  AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
+  AuthenticatedChallansIndexRoute: AuthenticatedChallansIndexRoute,
+  AuthenticatedOfficerIndexRoute: AuthenticatedOfficerIndexRoute,
+  AuthenticatedRulesIndexRoute: AuthenticatedRulesIndexRoute,
+  AuthenticatedVehiclesIndexRoute: AuthenticatedVehiclesIndexRoute,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
+  AuthRoute: AuthRoute,
+  ForgotPasswordRoute: ForgotPasswordRoute,
+  ResetPasswordRoute: ResetPasswordRoute,
+  VerifyChallanNoRoute: VerifyChallanNoRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
