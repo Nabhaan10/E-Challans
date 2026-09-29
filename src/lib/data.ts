@@ -57,7 +57,7 @@ export function dailySeries<T>(rows: T[], dateOf: (r: T) => string, valueOf: (r:
   rows.forEach((r) => {
     const k = dateOf(r).slice(0, 10);
     const i = idx.get(k);
-    if (i !== undefined) out[i].value += valueOf(r);
+    const o = i !== undefined ? out[i] : undefined; if (o) o.value += valueOf(r);
   });
   return out;
 }

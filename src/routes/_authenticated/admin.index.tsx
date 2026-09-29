@@ -63,7 +63,7 @@ function AdminDashboard() {
         <ChartCard title="Violations by type"><HBar data={groupCount(rows, (r) => r.traffic_violations?.name ?? "—")} /></ChartCard>
         <ChartCard title="Payment status"><Donut data={groupCount(rows, (r) => labelize(r.status))} /></ChartCard>
         <ChartCard title="Appeals by status"><Donut data={groupCount(c.appeals, (a) => labelize(a.status))} /></ChartCard>
-        <ChartCard title="Violations by location"><HBar data={groupCount(rows, (r) => r.location_text.split(",")[0]).slice(0, 8)} /></ChartCard>
+        <ChartCard title="Violations by location"><HBar data={groupCount(rows, (r) => r.location_text.split(",")[0] ?? "—").slice(0, 8)} /></ChartCard>
         <ChartCard title="Vehicle type distribution"><Donut data={groupCount(c.vehicles, (v) => labelize(v.vehicle_type))} /></ChartCard>
       </div>
     </div>
