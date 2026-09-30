@@ -33,7 +33,7 @@ function RulesPage() {
                 <div key={r.id} className="mt-3 rounded bg-muted/40 p-2 text-sm">
                   <p><b>{r.legal_act}</b>, Sec {r.section} · {r.applicability}{r.state ? ` (${r.state})` : ""}</p>
                   {r.vehicle_types?.length ? <p className="text-xs text-muted-foreground">{r.vehicle_types.map(labelize).join(", ")}</p> : null}
-                  {r.violation_penalties.map((p) => (
+                  {([] as { id: string; base_fine: number; additional_penalty: number }[]).concat((r.violation_penalties as never) ?? []).map((p) => (
                     <p key={p.id} className="font-semibold">{inr(p.base_fine)}{p.additional_penalty ? ` + ${inr(p.additional_penalty)}` : ""}</p>
                   ))}
                 </div>

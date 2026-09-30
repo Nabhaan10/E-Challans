@@ -33,8 +33,8 @@ function AppealsPage() {
   });
 
   async function act(id: string, action: "start_review" | "approve" | "reject") {
-    const { error } = await supabase.rpc("review_appeal", { _appeal_id: id, _action: action, _notes: notes[id]?.trim() || undefined });
-    if (error) return toast.error(errMsg(error));
+    const { error } = await supabase.rpc("review_appeal", { _appeal_id: id, _action: action, ...(notes[id]?.trim() ? { _notes: notes[id]!.trim() } : {}) });
+    if (error) { toast.error(errMsg(error)); return; }
     toast.success("Appeal updated");
     qc.invalidateQueries({ queryKey: ["appeals"] });
     qc.invalidateQueries({ queryKey: ["challans"] });
@@ -45,7 +45,7 @@ function AppealsPage() {
   return (
     <div className="max-w-4xl">
       <PageHeader title="Appeals" subtitle={staff ? "Review citizen disputes" : "Track your disputes"} />
-      {!rows.length && <EmptyState title="No appeals" hint={staff ? undefined : "Open a pending challan and choose Dispute."} />}
+      {!rows.length && <EmptyState title="No appeals" {...(staff ? {} : { hint: "Open a pending challan and choose Dispute." })} />}
       <div className="space-y-3">
         {rows.map((a) => {
           const open = a.status === "SUBMITTED" || a.status === "UNDER_REVIEW";

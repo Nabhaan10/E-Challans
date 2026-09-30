@@ -69,7 +69,7 @@ function ChallanDetail() {
     setBusy(true);
     const { error } = await supabase.rpc("pay_challan", { _challan_id: id, _method: method, _idempotency_key: `${id}-${crypto.randomUUID()}` });
     setBusy(false);
-    if (error) return toast.error(errMsg(error));
+    if (error) { toast.error(errMsg(error)); return; }
     toast.success("Payment successful");
     setPayOpen(false);
     refresh();
@@ -77,11 +77,11 @@ function ChallanDetail() {
 
   async function appeal() {
     const text = explanation.trim();
-    if (text.length < 20) return toast.error("Please explain in at least 20 characters");
+    if (text.length < 20) { toast.error("Please explain in at least 20 characters"); return; }
     setBusy(true);
     const { error } = await supabase.rpc("submit_appeal", { _challan_id: id, _ground: ground, _explanation: text.slice(0, 2000) });
     setBusy(false);
-    if (error) return toast.error(errMsg(error));
+    if (error) { toast.error(errMsg(error)); return; }
     toast.success("Appeal submitted");
     setAppealOpen(false);
     refresh();

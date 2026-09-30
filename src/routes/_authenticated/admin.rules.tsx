@@ -29,15 +29,15 @@ function RulesEditor() {
     const e = edits[id];
     if (!e) return;
     const base = Number(e.base), add = Number(e.add);
-    if (!Number.isInteger(base) || base < 0 || base > 1000000 || !Number.isInteger(add) || add < 0 || add > 1000000) return toast.error("Enter valid whole amounts");
+    if (!Number.isInteger(base) || base < 0 || base > 1000000 || !Number.isInteger(add) || add < 0 || add > 1000000) { toast.error("Enter valid whole amounts"); return; }
     const { error } = await supabase.from("violation_penalties").update({ base_fine: base, additional_penalty: add }).eq("id", id);
-    if (error) return toast.error(errMsg(error));
+    if (error) { toast.error(errMsg(error)); return; }
     toast.success("Penalty updated (logged in audit)");
     qc.invalidateQueries({ queryKey: rulesQuery.queryKey });
   }
   async function toggle(id: string, active: boolean) {
     const { error } = await supabase.from("traffic_rules").update({ active, updated_at: new Date().toISOString() }).eq("id", id);
-    if (error) return toast.error(errMsg(error));
+    if (error) { toast.error(errMsg(error)); return; }
     qc.invalidateQueries({ queryKey: rulesQuery.queryKey });
   }
 
@@ -53,7 +53,7 @@ function RulesEditor() {
           <tbody className="divide-y">
             {(data ?? []).flatMap((v) =>
               v.traffic_rules.map((r) => {
-                const p = r.violation_penalties[0];
+                const pv = r.violation_penalties as unknown; const p = (Array.isArray(pv) ? pv[0] : pv) as { id: string; base_fine: number; additional_penalty: number } | null;
                 const e = p ? edits[p.id] ?? { base: String(p.base_fine), add: String(p.additional_penalty) } : null;
                 return (
                   <tr key={r.id}>

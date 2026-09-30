@@ -86,7 +86,7 @@ function IssueChallan() {
       _location_text: `${loc.name}, ${loc.area}, ${loc.city}`, _lat: loc.lat, _lng: loc.lng, _remarks: remarks.trim().slice(0, 500),
     });
     setBusy(false);
-    if (error) return toast.error(errMsg(error));
+    if (error) { toast.error(errMsg(error)); return; }
     toast.success(`Challan ${data.challan_no} issued`);
     navigate({ to: "/challans/$id", params: { id: data.id } });
   }
