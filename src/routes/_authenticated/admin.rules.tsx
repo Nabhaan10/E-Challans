@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
 import { errMsg } from "@/lib/format";
-import { rulesQuery } from "./rules.index";
+import { rulesQuery } from "@/lib/rules";
 
 export const Route = createFileRoute("/_authenticated/admin/rules")({
   head: () => ({ meta: [{ title: "Rules Editor — e-Challan" }] }),
