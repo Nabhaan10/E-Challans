@@ -4,4 +4,4 @@
 - [x] Challan list/detail (why-fine, evidence, verify link, PDF receipt), payment flow, issue-challan w/ vehicle lookup + duplicate check
 - [x] Vehicles, appeals review, rules explorer, search
 - [x] Admin: rules editor, audit log, payments/revenue analytics
-- [ ] Admin: users, hotspot map, AI data assistant; notifications page; evidence/attachment uploads
+- [x] Admin: users, hotspot map, AI data assistant; notifications page; evidence uploads
