@@ -13,6 +13,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { inr, fmtDate, fmtDateTime, labelize, errMsg } from "@/lib/format";
 import { downloadReceipt } from "@/lib/receipt";
+import { EvidencePanel } from "@/components/EvidencePanel";
 
 export const Route = createFileRoute("/_authenticated/challans/$id")({
   head: () => ({ meta: [{ title: "Challan Details — e-Challan" }] }),
@@ -23,7 +24,7 @@ const GROUNDS = ["Incorrect vehicle number", "Incorrect location", "Duplicate ch
 
 function ChallanDetail() {
   const { id } = Route.useParams();
-  const { user } = useAuth();
+  const { user, role } = useAuth();
   const qc = useQueryClient();
   const [payOpen, setPayOpen] = useState(false);
   const [appealOpen, setAppealOpen] = useState(false);
@@ -44,7 +45,7 @@ function ChallanDetail() {
       const [pay, appeals, evidence] = await Promise.all([
         supabase.from("payments").select("*").eq("challan_id", id).order("paid_at", { ascending: false }).limit(1).maybeSingle(),
         supabase.from("appeals").select("*,appeal_events(status,note,created_at)").eq("challan_id", id).order("created_at", { ascending: false }),
-        supabase.from("challan_evidence").select("id,file_name,sha256,created_at").eq("challan_id", id),
+        supabase.from("challan_evidence").select("id,file_name,file_type,sha256,storage_path,created_at").eq("challan_id", id),
       ]);
       return { c: data, payment: pay.data, appeals: appeals.data ?? [], evidence: evidence.data ?? [] };
     },
@@ -164,12 +165,7 @@ function ChallanDetail() {
               </div>
             ) : <p className="mt-2 text-muted-foreground">Not paid yet.</p>}
           </section>
-          <section className="rounded-lg border bg-card p-5 text-sm">
-            <h2 className="text-xl font-bold uppercase">Evidence</h2>
-            {evidence.length ? evidence.map((e) => (
-              <div key={e.id} className="mt-2"><p>{e.file_name}</p><p className="break-all font-mono text-[10px] text-muted-foreground">SHA-256 {e.sha256}</p></div>
-            )) : <p className="mt-2 text-muted-foreground">No evidence attached.</p>}
-          </section>
+          <EvidencePanel challanId={c.id} evidence={evidence} canUpload={role !== "citizen"} onDone={() => qc.invalidateQueries({ queryKey: ["challan", id] })} />
           <section className="rounded-lg border bg-card p-5 text-sm">
             <h2 className="text-xl font-bold uppercase">Verify</h2>
             <Link to="/verify/$challanNo" params={{ challanNo: c.challan_no }} className="mt-2 block text-primary underline">Public verification page</Link>
