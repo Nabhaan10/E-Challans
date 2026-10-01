@@ -33,7 +33,7 @@ function UsersPage() {
       ]);
       const roles = new Map<string, Role[]>();
       (r.data ?? []).forEach((x) => roles.set(x.user_id, [...(roles.get(x.user_id) ?? []), x.role as Role]));
-      const officers = new Map((o.data ?? []).map((x: Record<string, unknown>) => [String(x.user_id ?? x.id), x]));
+      const officers = new Map((o.data ?? []).map((x: Record<string, unknown>) => [String(x["user_id"] ?? x["id"]), x]));
       return (p.data ?? []).map((u) => {
         const list = roles.get(u.id) ?? [];
         const role: Role = list.includes("admin") ? "admin" : list.includes("officer") ? "officer" : "citizen";
@@ -49,8 +49,8 @@ function UsersPage() {
       badge = prompt("Badge number (e.g. KL-TP-1234)") ?? undefined;
       station = prompt("Police station") ?? undefined;
     }
-    const { error } = await supabase.rpc("admin_set_role", { _user_id: userId, _role: role, _badge: badge, _station: station });
-    if (error) return toast.error(errMsg(error));
+    const { error } = await supabase.rpc("admin_set_role", { _user_id: userId, _role: role, ...(badge ? { _badge: badge } : {}), ...(station ? { _station: station } : {}) });
+    if (error) { toast.error(errMsg(error)); return; }
     toast.success("Role updated");
     qc.invalidateQueries({ queryKey: ["admin-users"] });
   }

@@ -13,8 +13,8 @@ export function EvidencePanel({ challanId, evidence, canUpload, onDone }: { chal
   const [busy, setBusy] = useState(false);
 
   async function upload(file: File) {
-    if (!TYPES.includes(file.type)) return toast.error("Only JPG, PNG, WEBP, PDF or MP4 files");
-    if (file.size > MAX) return toast.error("File must be under 10 MB");
+    if (!TYPES.includes(file.type)) { toast.error("Only JPG, PNG, WEBP, PDF or MP4 files"); return; }
+    if (file.size > MAX) { toast.error("File must be under 10 MB"); return; }
     setBusy(true);
     try {
       const hash = await sha256Hex(await file.arrayBuffer());
@@ -36,7 +36,7 @@ export function EvidencePanel({ challanId, evidence, canUpload, onDone }: { chal
 
   async function open(e: Ev) {
     const { data, error } = await supabase.storage.from("evidence").createSignedUrl(e.storage_path, 300);
-    if (error || !data) return toast.error("Could not open file");
+    if (error || !data) { toast.error("Could not open file"); return; }
     window.open(data.signedUrl, "_blank", "noopener");
   }
 
