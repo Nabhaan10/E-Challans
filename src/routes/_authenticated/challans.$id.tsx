@@ -20,6 +20,14 @@ export const Route = createFileRoute("/_authenticated/challans/$id")({
   component: ChallanDetail,
 });
 
+const ATTACH_TYPES = ["image/jpeg", "image/png", "image/webp", "application/pdf", "video/mp4"];
+const ATTACH_MAX = 10 * 1024 * 1024;
+async function openAttachment(path: string) {
+  const { data, error } = await supabase.storage.from("evidence").createSignedUrl(path, 300);
+  if (error || !data) { toast.error("Could not open file"); return; }
+  window.open(data.signedUrl, "_blank", "noopener");
+}
+
 const GROUNDS = ["Incorrect vehicle number", "Incorrect location", "Duplicate challan", "Evidence issue", "Signage concern", "Vehicle not present", "Other"];
 
 function ChallanDetail() {
@@ -32,6 +40,7 @@ function ChallanDetail() {
   const [ground, setGround] = useState(GROUNDS[0]!);
   const [explanation, setExplanation] = useState("");
   const [busy, setBusy] = useState(false);
+  const [file, setFile] = useState<File | null>(null);
 
   const q = useQuery({
     queryKey: ["challan", id],
@@ -79,12 +88,23 @@ function ChallanDetail() {
   async function appeal() {
     const text = explanation.trim();
     if (text.length < 20) { toast.error("Please explain in at least 20 characters"); return; }
+    let path: string | undefined;
+    if (file) {
+      if (!ATTACH_TYPES.includes(file.type)) { toast.error("Only JPG, PNG, WEBP, PDF or MP4 files"); return; }
+      if (file.size > ATTACH_MAX) { toast.error("File must be under 10 MB"); return; }
+    }
     setBusy(true);
-    const { error } = await supabase.rpc("submit_appeal", { _challan_id: id, _ground: ground, _explanation: text.slice(0, 2000) });
+    if (file) {
+      path = `appeals/${user.id}/${id}-${Date.now()}-${file.name.replace(/[^\w.-]/g, "_").slice(-80)}`;
+      const up = await supabase.storage.from("evidence").upload(path, file, { contentType: file.type, upsert: false });
+      if (up.error) { setBusy(false); toast.error(errMsg(up.error)); return; }
+    }
+    const { error } = await supabase.rpc("submit_appeal", { _challan_id: id, _ground: ground, _explanation: text.slice(0, 2000), ...(path ? { _attachment_path: path } : {}) });
     setBusy(false);
     if (error) { toast.error(errMsg(error)); return; }
     toast.success("Appeal submitted");
     setAppealOpen(false);
+    setFile(null);
     refresh();
   }
 
@@ -143,6 +163,7 @@ function ChallanDetail() {
                 <div key={a.id} className="mt-3 text-sm">
                   <div className="flex items-center justify-between"><b>{a.ground}</b><StatusBadge status={a.status} /></div>
                   <p className="mt-1 text-muted-foreground">{a.explanation}</p>
+                  {a.attachment_path && <button onClick={() => openAttachment(a.attachment_path!)} className="mt-1 text-primary underline">View attachment</button>}
                   {a.decision_notes && <p className="mt-1">Decision: {a.decision_notes}</p>}
                   <ol className="mt-2 border-l pl-4">
                     {a.appeal_events.sort((x, y) => x.created_at.localeCompare(y.created_at)).map((e, i) => (
@@ -195,6 +216,10 @@ function ChallanDetail() {
           </select>
           <Label>Explanation</Label>
           <Textarea rows={5} maxLength={2000} value={explanation} onChange={(e) => setExplanation(e.target.value)} placeholder="Describe why this challan is incorrect (min 20 characters)" />
+          <Label>Supporting photo, video or document (optional)</Label>
+          <input type="file" accept={ATTACH_TYPES.join(",")} className="text-sm"
+            onChange={(e) => { const f = e.target.files?.[0] ?? null; if (f && (!ATTACH_TYPES.includes(f.type) || f.size > ATTACH_MAX)) { toast.error("JPG, PNG, WEBP, PDF or MP4 under 10 MB only"); e.target.value = ""; setFile(null); return; } setFile(f); }} />
+          <p className="text-xs text-muted-foreground">Max 10 MB. Only you and reviewing officers can view it.</p>
           <Button disabled={busy} onClick={appeal}>{busy ? "Submitting…" : "Submit appeal"}</Button>
         </DialogContent>
       </Dialog>
