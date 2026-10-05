@@ -12,7 +12,7 @@ import { errMsg } from "@/lib/format";
 import { rulesQuery } from "@/lib/rules";
 
 export const Route = createFileRoute("/_authenticated/admin/rules")({
-  head: () => ({ meta: [{ title: "Rules Editor ΓÇö e-Challan" }] }),
+  head: () => ({ meta: [{ title: "Rules Editor — e-Challan" }] }),
   component: () => (
     <RequireRole roles={["admin"]}>
       <RulesEditor />
@@ -58,7 +58,7 @@ function RulesEditor() {
                 return (
                   <tr key={r.id}>
                     <td className="px-3 py-2"><span className="font-mono text-xs">{v.code}</span> {v.name}</td>
-                    <td className="px-3 py-2 text-xs">{r.legal_act} ┬º{r.section} ┬╖ {r.applicability}</td>
+                    <td className="px-3 py-2 text-xs">{r.legal_act} §{r.section} · {r.applicability}</td>
                     {p && e ? (
                       <>
                         <td className="px-3 py-2"><Input className="w-28" inputMode="numeric" value={e.base} onChange={(x) => setEdits({ ...edits, [p.id]: { ...e, base: x.target.value } })} /></td>

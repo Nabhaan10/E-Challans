@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input";
 import { fmtDateTime } from "@/lib/format";
 
 export const Route = createFileRoute("/_authenticated/admin/audit")({
-  head: () => ({ meta: [{ title: "Audit Log ΓÇö e-Challan" }] }),
+  head: () => ({ meta: [{ title: "Audit Log — e-Challan" }] }),
   component: () => (
     <RequireRole roles={["admin"]}>
       <AuditLog />

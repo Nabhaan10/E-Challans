@@ -11,7 +11,7 @@ import { fmtDate, errMsg } from "@/lib/format";
 import type { Role } from "@/lib/auth";
 
 export const Route = createFileRoute("/_authenticated/admin/users")({
-  head: () => ({ meta: [{ title: "User Management ΓÇö e-Challan" }] }),
+  head: () => ({ meta: [{ title: "User Management — e-Challan" }] }),
   component: () => (
     <RequireRole roles={["admin"]}>
       <UsersPage />
@@ -84,7 +84,7 @@ function UsersPage() {
                   <td className="p-3 font-medium">{u.full_name}{u.is_demo && <span className="ml-2 rounded bg-muted px-1.5 text-[10px] uppercase">demo</span>}</td>
                   <td className="p-3 text-muted-foreground">{u.email}<br />{u.phone}</td>
                   <td className="p-3 capitalize">{u.role}</td>
-                  <td className="p-3 text-xs text-muted-foreground">{u.badge}{u.station && ` ┬╖ ${u.station}`}</td>
+                  <td className="p-3 text-xs text-muted-foreground">{u.badge}{u.station && ` · ${u.station}`}</td>
                   <td className="p-3 text-muted-foreground">{fmtDate(u.created_at)}</td>
                   <td className="p-3">
                     <div className="flex gap-1">

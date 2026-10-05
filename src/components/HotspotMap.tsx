@@ -10,7 +10,7 @@ export default function HotspotMap({ points }: { points: MapPoint[] }) {
     if (!ref.current) return;
     const center: [number, number] = points.length ? [points[0]!.lat, points[0]!.lng] : [10.0, 76.3];
     const map = L.map(ref.current).setView(center, 8);
-    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", { attribution: "┬⌐ OpenStreetMap" }).addTo(map);
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", { attribution: "© OpenStreetMap" }).addTo(map);
     const max = Math.max(1, ...points.map((p) => p.count));
     points.forEach((p) => {
       L.circleMarker([p.lat, p.lng], {

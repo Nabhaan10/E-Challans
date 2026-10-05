@@ -18,7 +18,7 @@ export async function downloadReceipt(d: ReceiptData) {
   const verifyUrl = `${window.location.origin}/verify/${d.challan_no}`;
   const qr = await QR.toDataURL(verifyUrl, { margin: 1, width: 240 });
   const doc = new jsPDF({ unit: "mm", format: "a4" });
-  const rs = (n: number) => inr(n).replace("Γé╣", "Rs. ");
+  const rs = (n: number) => inr(n).replace("₹", "Rs. ");
   doc.setFillColor(20, 24, 38);
   doc.rect(0, 0, 210, 28, "F");
   doc.setTextColor(255, 255, 255);

@@ -69,7 +69,7 @@ export const askData = createServerFn({ method: "POST" })
         ],
       }),
     });
-    if (res.status === 429) return { error: "Too many requests ΓÇö please wait a moment and try again." };
+    if (res.status === 429) return { error: "Too many requests — please wait a moment and try again." };
     if (res.status === 402) return { error: "AI credits are exhausted for this workspace." };
     if (!res.ok) {
       console.error("AI gateway", res.status, await res.text());

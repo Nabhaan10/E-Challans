@@ -12,7 +12,7 @@ import { normalizeReg, labelize } from "@/lib/format";
 
 export const Route = createFileRoute("/_authenticated/search")({
   validateSearch: (s: Record<string, unknown>): { q?: string } => (typeof s["q"] === "string" ? { q: s["q"] } : {}),
-  head: () => ({ meta: [{ title: "Vehicle & Challan Search ΓÇö e-Challan" }] }),
+  head: () => ({ meta: [{ title: "Vehicle & Challan Search — e-Challan" }] }),
   component: SearchPage,
 });
 
@@ -51,7 +51,7 @@ function SearchPage() {
               {res.data.vehicles.map((v) => (
                 <Link key={v.id} to="/vehicles/$id" params={{ id: v.id }} className="rounded-lg border bg-card p-3 hover:border-primary">
                   <p className="font-mono text-lg font-bold">{v.reg_no}</p>
-                  <p className="text-sm text-muted-foreground">{labelize(v.vehicle_type)} ┬╖ {v.make} {v.model}</p>
+                  <p className="text-sm text-muted-foreground">{labelize(v.vehicle_type)} · {v.make} {v.model}</p>
                 </Link>
               ))}
             </div>

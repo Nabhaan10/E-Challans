@@ -8,7 +8,7 @@ import { ChallanTable } from "@/components/ChallanTable";
 import { labelize, docState, fmtDate } from "@/lib/format";
 
 export const Route = createFileRoute("/_authenticated/vehicles/$id")({
-  head: () => ({ meta: [{ title: "Vehicle Details ΓÇö e-Challan" }] }),
+  head: () => ({ meta: [{ title: "Vehicle Details — e-Challan" }] }),
   component: VehicleDetail,
 });
 
@@ -29,7 +29,7 @@ function VehicleDetail() {
   if (!v) return <EmptyState title="Vehicle not found" />;
   return (
     <div>
-      <PageHeader title={v.reg_no} subtitle={`${labelize(v.vehicle_type)} ┬╖ ${v.make} ${v.model} ┬╖ ${v.fuel_type}`} />
+      <PageHeader title={v.reg_no} subtitle={`${labelize(v.vehicle_type)} · ${v.make} ${v.model} · ${v.fuel_type}`} />
       <div className="mb-6 grid gap-3 sm:grid-cols-4">
         {([["Registration", v.registration_expiry], ["Insurance", v.insurance_expiry], ["PUC", v.puc_expiry]] as const).map(([k, d]) => (
           <div key={k} className="rounded-lg border bg-card p-3 text-sm">

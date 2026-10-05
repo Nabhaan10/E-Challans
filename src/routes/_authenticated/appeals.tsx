@@ -11,7 +11,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { fmtDateTime, inr, errMsg } from "@/lib/format";
 
 export const Route = createFileRoute("/_authenticated/appeals")({
-  head: () => ({ meta: [{ title: "Appeals ΓÇö e-Challan" }] }),
+  head: () => ({ meta: [{ title: "Appeals — e-Challan" }] }),
   component: AppealsPage,
 });
 
@@ -53,7 +53,7 @@ function AppealsPage() {
             <div key={a.id} className="rounded-lg border bg-card p-4">
               <div className="flex flex-wrap items-center justify-between gap-2">
                 <Link to="/challans/$id" params={{ id: a.challan_id }} className="font-mono font-semibold text-primary">
-                  {a.challans?.challan_no} ┬╖ {a.challans?.vehicles?.reg_no} ┬╖ {inr(a.challans?.amount)}
+                  {a.challans?.challan_no} · {a.challans?.vehicles?.reg_no} · {inr(a.challans?.amount)}
                 </Link>
                 <StatusBadge status={a.status} />
               </div>

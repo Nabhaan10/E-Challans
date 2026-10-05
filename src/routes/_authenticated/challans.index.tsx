@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input";
 import { labelize } from "@/lib/format";
 
 export const Route = createFileRoute("/_authenticated/challans/")({
-  head: () => ({ meta: [{ title: "Challans ΓÇö e-Challan" }] }),
+  head: () => ({ meta: [{ title: "Challans — e-Challan" }] }),
   component: ChallansPage,
 });
 

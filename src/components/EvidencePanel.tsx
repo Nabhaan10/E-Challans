@@ -52,7 +52,7 @@ export function EvidencePanel({ challanId, evidence, canUpload, onDone }: { chal
       {canUpload && (
         <Button asChild variant="outline" size="sm" className="mt-3" disabled={busy}>
           <label className="cursor-pointer">
-            {busy ? "UploadingΓÇª" : "Attach photo / file"}
+            {busy ? "Uploading…" : "Attach photo / file"}
             <input type="file" accept={TYPES.join(",")} className="hidden" disabled={busy}
               onChange={(ev) => { const f = ev.target.files?.[0]; if (f) upload(f); ev.target.value = ""; }} />
           </label>

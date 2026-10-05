@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { ago } from "@/lib/format";
 
 export const Route = createFileRoute("/_authenticated/notifications")({
-  head: () => ({ meta: [{ title: "Notifications ΓÇö e-Challan" }] }),
+  head: () => ({ meta: [{ title: "Notifications — e-Challan" }] }),
   component: NotificationsPage,
 });
 
@@ -47,7 +47,7 @@ function NotificationsPage() {
               <div className="min-w-0 flex-1">
                 <p className={`text-sm ${n.read ? "" : "font-semibold"}`}>{n.title}</p>
                 <p className="text-sm text-muted-foreground">{n.body}</p>
-                <p className="mt-1 text-xs text-muted-foreground">{ago(n.created_at)} ┬╖ {n.type}</p>
+                <p className="mt-1 text-xs text-muted-foreground">{ago(n.created_at)} · {n.type}</p>
               </div>
               <div className="flex shrink-0 gap-2">
                 {n.link && <Button asChild size="sm" variant="outline" onClick={() => markOne(n.id)}><Link to={n.link}>Open</Link></Button>}

@@ -9,7 +9,7 @@ import type { MapPoint } from "@/components/HotspotMap";
 const HotspotMap = lazy(() => import("@/components/HotspotMap"));
 
 export const Route = createFileRoute("/_authenticated/admin/map")({
-  head: () => ({ meta: [{ title: "Violation Hotspot Map ΓÇö e-Challan" }] }),
+  head: () => ({ meta: [{ title: "Violation Hotspot Map — e-Challan" }] }),
   component: () => (
     <RequireRole roles={["admin", "officer"]}>
       <MapPage />
@@ -38,7 +38,7 @@ function MapPage() {
       const key = `${c.lat!.toFixed(2)},${c.lng!.toFixed(2)}`;
       const e = m.get(key) ?? { lat: c.lat!, lng: c.lng!, label: c.location_text.split(",")[0] ?? "", count: 0, v: new Map() };
       e.count++;
-      const vn = (c.traffic_violations as { name: string } | null)?.name ?? "ΓÇö";
+      const vn = (c.traffic_violations as { name: string } | null)?.name ?? "—";
       e.v.set(vn, (e.v.get(vn) ?? 0) + 1);
       m.set(key, e);
     });

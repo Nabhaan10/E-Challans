@@ -16,7 +16,7 @@ import { downloadReceipt } from "@/lib/receipt";
 import { EvidencePanel } from "@/components/EvidencePanel";
 
 export const Route = createFileRoute("/_authenticated/challans/$id")({
-  head: () => ({ meta: [{ title: "Challan Details ΓÇö e-Challan" }] }),
+  head: () => ({ meta: [{ title: "Challan Details — e-Challan" }] }),
   component: ChallanDetail,
 });
 
@@ -67,7 +67,7 @@ function ChallanDetail() {
   const isOwner = c.owner_id === user.id;
   const payable = isOwner && ["PENDING", "OVERDUE", "ESCALATED"].includes(c.status);
   const disputable = isOwner && ["PENDING", "OVERDUE"].includes(c.status);
-  const legal = c.traffic_rules ? `${c.traffic_rules.legal_act}, Sec ${c.traffic_rules.section}` : "ΓÇö";
+  const legal = c.traffic_rules ? `${c.traffic_rules.legal_act}, Sec ${c.traffic_rules.section}` : "—";
 
   const refresh = () => {
     qc.invalidateQueries({ queryKey: ["challan", id] });
@@ -135,10 +135,10 @@ function ChallanDetail() {
             <dl className="mt-3 grid gap-3 text-sm sm:grid-cols-2">
               {[
                 ["Vehicle", <Link key="v" to="/vehicles/$id" params={{ id: c.vehicle_id }} className="font-mono font-semibold text-primary">{c.vehicles?.reg_no}</Link>],
-                ["Vehicle type", `${labelize(c.vehicles?.vehicle_type ?? "")} ┬╖ ${c.vehicles?.make} ${c.vehicles?.model}`],
-                ["Violation", `${c.traffic_violations?.code} ΓÇö ${c.traffic_violations?.name}`],
+                ["Vehicle type", `${labelize(c.vehicles?.vehicle_type ?? "")} · ${c.vehicles?.make} ${c.vehicles?.model}`],
+                ["Violation", `${c.traffic_violations?.code} — ${c.traffic_violations?.name}`],
                 ["Location", c.location_text],
-                ["Officer", c.profiles?.full_name || "Automated / ΓÇö"],
+                ["Officer", c.profiles?.full_name || "Automated / —"],
                 ["Due date", fmtDate(c.due_date)],
                 ["Base fine", inr(c.base_fine)],
                 ["Additional penalty", inr(c.additional_penalty)],
@@ -167,7 +167,7 @@ function ChallanDetail() {
                   {a.decision_notes && <p className="mt-1">Decision: {a.decision_notes}</p>}
                   <ol className="mt-2 border-l pl-4">
                     {a.appeal_events.sort((x, y) => x.created_at.localeCompare(y.created_at)).map((e, i) => (
-                      <li key={i} className="mb-1"><StatusBadge status={e.status} /> <span className="text-xs text-muted-foreground">{fmtDateTime(e.created_at)} ┬╖ {e.note}</span></li>
+                      <li key={i} className="mb-1"><StatusBadge status={e.status} /> <span className="text-xs text-muted-foreground">{fmtDateTime(e.created_at)} · {e.note}</span></li>
                     ))}
                   </ol>
                 </div>
@@ -181,7 +181,7 @@ function ChallanDetail() {
             {payment ? (
               <div className="mt-2 space-y-1">
                 <p className="font-mono text-xs">{payment.transaction_id}</p>
-                <p>{payment.method} ┬╖ {inr(payment.amount)}</p>
+                <p>{payment.method} · {inr(payment.amount)}</p>
                 <p className="text-muted-foreground">{fmtDateTime(payment.paid_at)}</p>
               </div>
             ) : <p className="mt-2 text-muted-foreground">Not paid yet.</p>}
@@ -197,13 +197,13 @@ function ChallanDetail() {
       <Dialog open={payOpen} onOpenChange={setPayOpen}>
         <DialogContent>
           <DialogHeader><DialogTitle>Pay {inr(c.amount)}</DialogTitle></DialogHeader>
-          <p className="text-xs text-muted-foreground">Demo payment ΓÇö no real money is charged.</p>
+          <p className="text-xs text-muted-foreground">Demo payment — no real money is charged.</p>
           <div className="grid grid-cols-3 gap-2">
             {(["UPI", "CARD", "NETBANKING"] as const).map((m) => (
               <Button key={m} variant={method === m ? "default" : "outline"} onClick={() => setMethod(m)}>{labelize(m)}</Button>
             ))}
           </div>
-          <Button disabled={busy} onClick={pay}>{busy ? "ProcessingΓÇª" : `Confirm payment`}</Button>
+          <Button disabled={busy} onClick={pay}>{busy ? "Processing…" : `Confirm payment`}</Button>
         </DialogContent>
       </Dialog>
 
@@ -220,7 +220,7 @@ function ChallanDetail() {
           <input type="file" accept={ATTACH_TYPES.join(",")} className="text-sm"
             onChange={(e) => { const f = e.target.files?.[0] ?? null; if (f && (!ATTACH_TYPES.includes(f.type) || f.size > ATTACH_MAX)) { toast.error("JPG, PNG, WEBP, PDF or MP4 under 10 MB only"); e.target.value = ""; setFile(null); return; } setFile(f); }} />
           <p className="text-xs text-muted-foreground">Max 10 MB. Only you and reviewing officers can view it.</p>
-          <Button disabled={busy} onClick={appeal}>{busy ? "SubmittingΓÇª" : "Submit appeal"}</Button>
+          <Button disabled={busy} onClick={appeal}>{busy ? "Submitting…" : "Submit appeal"}</Button>
         </DialogContent>
       </Dialog>
     </div>

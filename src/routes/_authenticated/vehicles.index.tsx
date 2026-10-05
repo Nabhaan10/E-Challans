@@ -6,7 +6,7 @@ import { StatusBadge } from "@/components/StatusBadge";
 import { labelize, docState } from "@/lib/format";
 
 export const Route = createFileRoute("/_authenticated/vehicles/")({
-  head: () => ({ meta: [{ title: "Vehicles ΓÇö e-Challan" }] }),
+  head: () => ({ meta: [{ title: "Vehicles — e-Challan" }] }),
   component: VehiclesPage,
 });
 
@@ -24,7 +24,7 @@ function VehiclesPage() {
           {data.map((v) => (
             <Link key={v.id} to="/vehicles/$id" params={{ id: v.id }} className="rounded-lg border bg-card p-4 hover:border-primary">
               <p className="font-mono text-xl font-bold">{v.reg_no}</p>
-              <p className="text-sm text-muted-foreground">{labelize(v.vehicle_type)} ┬╖ {v.make} {v.model}</p>
+              <p className="text-sm text-muted-foreground">{labelize(v.vehicle_type)} · {v.make} {v.model}</p>
               <div className="mt-2 flex gap-2 text-xs">Insurance <StatusBadge status={docState(v.insurance_expiry).state} /> PUC <StatusBadge status={docState(v.puc_expiry).state} /></div>
             </Link>
           ))}

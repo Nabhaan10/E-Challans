@@ -7,7 +7,7 @@ import { ChartCard, Donut, Trend } from "@/components/Charts";
 import { inr, fmtDateTime } from "@/lib/format";
 
 export const Route = createFileRoute("/_authenticated/admin/payments")({
-  head: () => ({ meta: [{ title: "Payments & Revenue ΓÇö e-Challan" }] }),
+  head: () => ({ meta: [{ title: "Payments & Revenue — e-Challan" }] }),
   component: () => (
     <RequireRole roles={["admin"]}>
       <Payments />
