@@ -1,4 +1,4 @@
-﻿import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useState } from "react";
 import { Send } from "lucide-react";
@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 
 export const Route = createFileRoute("/_authenticated/admin/assistant")({
-  head: () => ({ meta: [{ title: "Data Assistant ΓÇö e-Challan" }] }),
+  head: () => ({ meta: [{ title: "Data Assistant — e-Challan" }] }),
   component: () => (
     <RequireRole roles={["admin"]}>
       <Assistant />
@@ -39,9 +39,9 @@ function Assistant() {
     setBusy(true);
     try {
       const r = await ask({ data: { messages: next } });
-      setMsgs([...next, { role: "assistant", content: r.reply ?? `ΓÜá ${r.error}` }]);
+      setMsgs([...next, { role: "assistant", content: r.reply ?? `⚠️ ${r.error}` }]);
     } catch {
-      setMsgs([...next, { role: "assistant", content: "ΓÜá Something went wrong. Try again." }]);
+      setMsgs([...next, { role: "assistant", content: "⚠️ Something went wrong. Try again." }]);
     } finally {
       setBusy(false);
     }
@@ -63,7 +63,7 @@ function Assistant() {
             {m.content}
           </div>
         ))}
-        {busy && <div className="self-start animate-pulse rounded-lg bg-muted p-3 text-sm">Analysing dataΓÇª</div>}
+        {busy && <div className="self-start animate-pulse rounded-lg bg-muted p-3 text-sm">Analysing data…</div>}
       </div>
       <form className="mt-3 flex gap-2" onSubmit={(e) => { e.preventDefault(); send(text); }}>
         <Textarea

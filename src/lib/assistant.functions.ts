@@ -1,4 +1,4 @@
-﻿import { createServerFn } from "@tanstack/react-start";
+import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 
@@ -22,7 +22,7 @@ export const askData = createServerFn({ method: "POST" })
     ]);
     const count = <T,>(rows: T[], k: (r: T) => string) => {
       const m: Record<string, number> = {};
-      rows.forEach((r) => { const key = k(r) || "ΓÇö"; m[key] = (m[key] ?? 0) + 1; });
+      rows.forEach((r) => { const key = k(r) || "—"; m[key] = (m[key] ?? 0) + 1; });
       return Object.fromEntries(Object.entries(m).sort((a, b) => b[1] - a[1]).slice(0, 15));
     };
     const challans = ch.data ?? [];
@@ -46,18 +46,23 @@ export const askData = createServerFn({ method: "POST" })
       monthly: byMonth,
     };
 
-    const key = process.env["LOVABLE_API_KEY"];
+    const key = process.env["OPENAI_API_KEY"];
     if (!key) return { error: "AI service is not configured." };
-    const res = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+    const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
       method: "POST",
-      headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
+      headers: {
+          Authorization: `Bearer ${key}`,
+          "Content-Type": "application/json",
+          "HTTP-Referer": "https://e-challan.app",
+          "X-Title": "e-Challan Data Assistant",
+        },
       body: JSON.stringify({
-        model: "google/gemini-3-flash-preview",
+        model: "openai/gpt-4o-mini",
         messages: [
           {
             role: "system",
             content:
-              "You are a data analyst for an Indian traffic e-Challan system. Answer only from the JSON statistics below. Use Γé╣ for money, be concise, use short bullet lists or small markdown tables. If the data can't answer, say so.\n\nSTATS:\n" +
+              "You are a data analyst for an Indian traffic e-Challan system. Answer only from the JSON statistics below. Use ₹ for money, be concise, use short bullet lists or small markdown tables. If the data can't answer, say so.\n\nSTATS:\n" +
               JSON.stringify(summary),
           },
           ...data.messages,
