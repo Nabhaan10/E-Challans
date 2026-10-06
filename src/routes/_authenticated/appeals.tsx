@@ -1,4 +1,4 @@
-﻿import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -8,12 +8,38 @@ import { PageHeader, Loading, EmptyState } from "@/components/StatCard";
 import { StatusBadge } from "@/components/StatusBadge";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
+import { Paperclip, ExternalLink } from "lucide-react";
 import { fmtDateTime, inr, errMsg } from "@/lib/format";
 
 export const Route = createFileRoute("/_authenticated/appeals")({
   head: () => ({ meta: [{ title: "Appeals — e-Challan" }] }),
   component: AppealsPage,
 });
+
+async function openAttachment(path: string) {
+  try {
+    const { data, error } = await supabase.storage.from("evidence").createSignedUrl(path, 300);
+    if (error || !data?.signedUrl) {
+      toast.error(error?.message || "Could not open file attachment");
+      return;
+    }
+    const a = document.createElement("a");
+    a.href = data.signedUrl;
+    a.target = "_blank";
+    a.rel = "noopener noreferrer";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  } catch (err) {
+    toast.error(errMsg(err));
+  }
+}
+
+function getAttachmentLabel(path: string) {
+  const filePart = path.split("/").pop() || "evidence";
+  const parts = filePart.split("-");
+  return parts.length >= 3 ? parts.slice(2).join("-") : filePart;
+}
 
 function AppealsPage() {
   const { role } = useAuth();
@@ -25,7 +51,7 @@ function AppealsPage() {
     queryFn: async () => {
       const { data, error } = await supabase
         .from("appeals")
-        .select("id,ground,explanation,status,decision_notes,created_at,challan_id,challans(challan_no,amount,vehicles(reg_no))")
+        .select("id,ground,explanation,status,decision_notes,created_at,challan_id,attachment_path,challans(challan_no,amount,vehicles(reg_no))")
         .order("created_at", { ascending: false });
       if (error) throw error;
       return data ?? [];
@@ -59,6 +85,21 @@ function AppealsPage() {
               </div>
               <p className="mt-2 text-sm font-semibold">{a.ground}</p>
               <p className="text-sm text-muted-foreground">{a.explanation}</p>
+              {a.attachment_path && (
+                <div className="mt-2">
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    className="h-8 gap-1.5 text-xs font-medium text-primary hover:bg-primary/5 hover:text-primary"
+                    onClick={() => openAttachment(a.attachment_path!)}
+                  >
+                    <Paperclip size={14} className="text-muted-foreground" />
+                    <span>Evidence: {getAttachmentLabel(a.attachment_path)}</span>
+                    <ExternalLink size={12} className="opacity-70" />
+                  </Button>
+                </div>
+              )}
               <p className="mt-1 text-xs text-muted-foreground">Filed {fmtDateTime(a.created_at)}</p>
               {a.decision_notes && <p className="mt-2 text-sm">Decision: {a.decision_notes}</p>}
               {staff && open && (

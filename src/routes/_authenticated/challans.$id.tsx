@@ -1,8 +1,8 @@
-﻿import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { toast } from "sonner";
-import { Download, CreditCard, Scale } from "lucide-react";
+import { Download, CreditCard, Scale, Paperclip, ExternalLink } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
 import { PageHeader, Loading, EmptyState } from "@/components/StatCard";
@@ -23,9 +23,22 @@ export const Route = createFileRoute("/_authenticated/challans/$id")({
 const ATTACH_TYPES = ["image/jpeg", "image/png", "image/webp", "application/pdf", "video/mp4"];
 const ATTACH_MAX = 10 * 1024 * 1024;
 async function openAttachment(path: string) {
-  const { data, error } = await supabase.storage.from("evidence").createSignedUrl(path, 300);
-  if (error || !data) { toast.error("Could not open file"); return; }
-  window.open(data.signedUrl, "_blank", "noopener");
+  try {
+    const { data, error } = await supabase.storage.from("evidence").createSignedUrl(path, 300);
+    if (error || !data?.signedUrl) {
+      toast.error(error?.message || "Could not open file");
+      return;
+    }
+    const a = document.createElement("a");
+    a.href = data.signedUrl;
+    a.target = "_blank";
+    a.rel = "noopener noreferrer";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  } catch (err) {
+    toast.error(errMsg(err));
+  }
 }
 
 const GROUNDS = ["Incorrect vehicle number", "Incorrect location", "Duplicate challan", "Evidence issue", "Signage concern", "Vehicle not present", "Other"];
@@ -163,8 +176,22 @@ function ChallanDetail() {
                 <div key={a.id} className="mt-3 text-sm">
                   <div className="flex items-center justify-between"><b>{a.ground}</b><StatusBadge status={a.status} /></div>
                   <p className="mt-1 text-muted-foreground">{a.explanation}</p>
-                  {a.attachment_path && <button onClick={() => openAttachment(a.attachment_path!)} className="mt-1 text-primary underline">View attachment</button>}
-                  {a.decision_notes && <p className="mt-1">Decision: {a.decision_notes}</p>}
+                  {a.attachment_path && (
+                    <div className="mt-2">
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        className="h-8 gap-1.5 text-xs font-medium text-primary hover:bg-primary/5 hover:text-primary"
+                        onClick={() => openAttachment(a.attachment_path!)}
+                      >
+                        <Paperclip size={14} className="text-muted-foreground" />
+                        <span>View citizen evidence attachment</span>
+                        <ExternalLink size={12} className="opacity-70" />
+                      </Button>
+                    </div>
+                  )}
+                  {a.decision_notes && <p className="mt-1 text-sm font-medium">Decision: {a.decision_notes}</p>}
                   <ol className="mt-2 border-l pl-4">
                     {a.appeal_events.sort((x, y) => x.created_at.localeCompare(y.created_at)).map((e, i) => (
                       <li key={i} className="mb-1"><StatusBadge status={e.status} /> <span className="text-xs text-muted-foreground">{fmtDateTime(e.created_at)} · {e.note}</span></li>
