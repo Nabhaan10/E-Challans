@@ -65,9 +65,7 @@ export function AppShell() {
     <nav className="flex h-full flex-col bg-sidebar text-sidebar-foreground">
       <div className="px-5 py-5">
         <Link to={homeFor(role)} className="flex items-center gap-2" onClick={() => setOpen(false)}>
-          <span className="grid h-9 w-9 place-items-center rounded-full border-4 border-destructive bg-card font-display text-sm font-bold text-foreground">
-            e₹
-          </span>
+          <img src="/favicon.png" alt="e-Challan Logo" className="h-9 w-9 rounded-full object-contain shadow-sm" />
           <div>
             <p className="font-display text-xl font-bold uppercase leading-none tracking-wide">e-Challan</p>
             <p className="text-[10px] uppercase tracking-widest text-sidebar-foreground/60">Traffic Violation MS</p>

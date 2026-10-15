@@ -35,9 +35,7 @@ function Landing() {
       <header className="bg-primary text-primary-foreground">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4">
           <div className="flex items-center gap-2">
-            <span className="grid h-10 w-10 place-items-center rounded-full border-4 border-destructive bg-card font-display text-sm font-bold text-foreground">
-              e₹
-            </span>
+            <img src="/favicon.png" alt="e-Challan Logo" className="h-10 w-10 rounded-full object-contain shadow-sm" />
             <span className="font-display text-2xl font-bold uppercase tracking-wide">e-Challan</span>
           </div>
           <div className="flex gap-2">
